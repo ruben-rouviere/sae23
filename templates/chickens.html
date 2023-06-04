@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eggco</title>
+
+  <link rel="stylesheet" type="text/css" href="base.css">
+  <style>
+    input,
+    td {
+      text-align: center;
+    }
+
+    td>input::placeholder {
+      color: black;
+      opacity: 1;
+    }
+  </style>
+
+  <script>
+    // Source: https://stackoverflow.com/a/59847337
+    function submit_refresh(event, method, path, form) {
+      event.preventDefault();
+      fetch(path, { method: method, body: new FormData(form) })
+        .then(() => location.reload()); // On attend que la requête soit passée pour recharger la page
+    }
+
+    function create_chicken(event, form) {
+      event.preventDefault();
+      fetch("/api/chicken", { method: "post", body: new FormData(form) })
+        .then(() =>{
+          location.reload() // On attend que la requête soit passée pour recharger la page
+          // On pourrait également enlever l'élément afin d'éviter de recharger la page.
+        }); 
+    }
+
+    function edit_chicken(event, id, form) {
+      submit_refresh(event, "put", `/api/chicken/${id}`, form)
+    }
+
+    function delete_chicken(event, id){
+      event.preventDefault();
+      fetch("/api/chicken/"+id, { method: "delete", body: "" })
+        .then(() => location.reload());
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Eggco - Gestion des poules</h1>
+
+  <form onsubmit="create_chicken(event, this)">
+    <div>
+      <label>Nouvelle poule</label>
+      <input type="text" name="name" placeholder="Nom">
+      <input type="text" name="birthdate" placeholder="AAAA-MM-JJ">
+      <input type="text" name="breed" placeholder="Race">
+      <input type="text" name="notes" placeholder="Notes éventuelles">
+      <button type="submit">Ajouter</button>
+    </div>
+  </form>
+
+  <br>
+
+  <!--Affichage des poules-->
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Nom</th>
+      <th>Date de naissance</th>
+      <th>Race</th>
+      <th>Notes</th>
+      <th>Modifier</th>
+      <th>Supprimer</th>
+    </tr>
+    {% for chicken in chickens %}
+    <tr id="chicken-{{chicken.id}}">
+      <form onsubmit="edit_chicken(event, '{{chicken.id}}', this)">
+        <td><b>{{chicken.id}}</b></td>
+        <!-- <td><b><input type="text" name="id" disabled="true" value="{{ chicken.id }}"><b></td> !-->
+        <td><input type="text" name="name" value="{{ chicken.name }}"></p>
+        <td><input type="text" name="birthdate" value="{{ chicken.birthdate }}"></p> <!--TODO: Validation de la date en JS-->
+        <td><input type="text" name="breed" value="{{ chicken.breed }}"></p>
+        <td><input type="text" name="notes" value="{{ chicken.notes }}"></p>
+        <td><button type="submit">Modifier</button></td>
+      </form>
+        <td><button onclick="delete_chicken(event, '{{chicken.id}}')">Supprimer</button></td> 
+    </tr>
+    {% endfor %}
+  </table>
+
+  <br>
+  <a href="/chickens/deleted">Voir les poules supprimées</a>
+
+</body>
+
+</html>
