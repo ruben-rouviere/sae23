@@ -1,5 +1,12 @@
+import os.path
+import sys
+sys.path.append('..')
+
 from flask_sqlalchemy import SQLAlchemy
-from app import db
+
+import db as db_holder
+db = db_holder.db
+    
 
 
 class Chicken(db.Model):

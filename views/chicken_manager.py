@@ -1,27 +1,33 @@
-from flask import Flask, render_template, url_for, redirect, request, make_response
+import os.path
+import sys
+sys.path.append('..')
 
-import app
+from flask import Blueprint, render_template, url_for, redirect, request, make_response
+from controllers.chicken import Chicken
 
-@app.route('/base.css')
+bp = Blueprint('chicken_manager', __name__, url_prefix='/')
+
+
+@bp.route('/base.css')
 def css():
     response = make_response(render_template('base.css'), 200)
     response.mimetype = "text/css"
     return response
 
-@app.route('/favicon.ico')
+@bp.route('/favicon.ico')
 def favicon():
     return "",204 # FIXME: Ajouter une favicon
 
-@app.route('/')
+@bp.route('/')
 def index():
     return '<a href="/chickens">Gestion poules</a>'
 
-@app.route('/chickens', methods=["GET"])
+@bp.route('/chickens', methods=["GET"])
 def chicken_manager():
     chickens = Chicken.get_all()
     return render_template("chickens.html", chickens=chickens)
 
-@app.route('/chickens/deleted', methods=["GET"])
+@bp.route('/chickens/deleted', methods=["GET"])
 def deleted_chicken_manager():
     chickens = Chicken.get_all_deleted()
     return render_template("deleted-chickens.html", chickens=chickens)

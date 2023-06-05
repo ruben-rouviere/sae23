@@ -1,10 +1,16 @@
-from flask import Flask, render_template, url_for, redirect, request, make_response, Blueprint
+from flask import request, make_response, Blueprint
 
-from app import db
-import Chicken
+from models.Chicken import Chicken
 
 bp = Blueprint('api', __name__, url_prefix='/api')
 
+import db as db_holder
+db = db_holder.db
+
+
+import os.path
+import sys
+sys.path.append('.')
 
 # Create
 @bp.route("/chicken", methods=["POST"])

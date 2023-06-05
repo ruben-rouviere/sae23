@@ -1,1 +1,1 @@
-import Chicken
+from . import Chicken
