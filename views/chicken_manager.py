@@ -20,7 +20,7 @@ def favicon():
 
 @bp.route('/')
 def index():
-    return '<a href="/chickens">Gestion poules</a>'
+    return render_template("index.html")
 
 @bp.route('/chickens', methods=["GET"])
 def chicken_manager():

@@ -25,6 +25,7 @@ class Chicken(db.Model):
         PRIMARY KEY("identifier" AUTOINCREMENT)
     );
     """
+    
     # Note: Par défaut, toutes les colonnes sont NOT NULL.
     id = db.Column(db.Integer, primary_key=True) # Auto increment défini implicitement
     name = db.Column(db.String(64))

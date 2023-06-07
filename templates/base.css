@@ -9,6 +9,8 @@
   top: 0;
   left: 0;
   right: 0;
+  display: flex;
+  flex-direction: column;
   /*padding: 0 3px 42px 0;*/
 }
 
@@ -48,10 +50,8 @@
   height: 91px;
   align-self: center;
   background-color: var(--cream);
-  border-radius: 1 5px;
-  &:not(:last-of-type) {
-    margin-right: 211px;
-  }
+  border: 2px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,4 +62,8 @@
   text-align: center;
   color: black;
   font-weight: bold;
+}
+
+h1 {
+  text-align: center;
 }

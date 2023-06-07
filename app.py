@@ -33,7 +33,7 @@ def create_app():
 
     # On lance l'application
     if __name__ == "__main__":
-        app.run(debug=True)
+        app.run(host='0.0.0.0',debug=True)
         
     return app
 
